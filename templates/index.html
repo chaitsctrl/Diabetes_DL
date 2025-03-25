@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDI 4 Home Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- <link rel="stylesheet" href="/templates/style.css"> -->
+    <style>
+        body{
+            background: #FFF url("{{ url_for('static', filename='images/abstract-digital-grid-black-background.jpg') }}") no-repeat center top;
+            background-size: 1536px 864px; /* Set the width and height of the background image */
+        }
+    </style>
+</head>
+<body>
+    <!-- <header class="p-2 bg-dark"> -->
+    <header class="p-2 header-bg">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <img class="head_img" src="{{ url_for('static', filename='images/diabetes_icon.png')}}"></img>
+                <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg> -->
+            </a>
+    
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
+              <li><a href="/retina_model" class="nav-link px-2 text-white">Retina Model</a></li>
+              <li><a href="/chatbot" class="nav-link px-2 text-white">Chatbot</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+            </ul>
+    
+            <!-- <form class="form-inline my-2 my-lg-0 log_form">
+                <input class="form-control mr-sm-2 form-control-dark text-bg-dark search_box" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form> -->
+          </div>
+        </div>
+    </header>
+
+
+    <!-- Main Container below -->
+    <div class="container pageContain pageContain-bg">
+    <!-- <div class="container text-bg-dark" id="mainContainer">
+        <div class="container text-bg-dark" id="introContent"> -->
+    <div class="container" id="mainContainer">
+        <div class="container" id="introContent">
+            <h2 class="text-center mb-4">Diabetes Prediction</h2>
+
+            <p>
+                Welcome to our Diabetes Prediction tool! This form is designed to collect important health-related information 
+                to predict the likelihood of someone having diabetes using machine learning. Your input will help us provide 
+                valuable insights into your health status.
+            </p>
+
+            <p>
+                Please answer the questions below honestly and to the best of your knowledge. The information you provide 
+                will be used to make predictions based on a machine learning model.
+            </p>
+            <!-- <p>
+                </br>
+                Result 1 : Paitent is Diabetic
+                </br>
+                Result 0 : Paitent is Non-Diabetic                
+            </p> -->
+
+            <h3>Result :</h3>
+            <p>{{ prediction_text1 }}</p>
+            <p>{{ prediction_text2 }}</p>
+            <p>{{ prediction_text3 }}</p>
+
+        </div>
+        <div class="container" id="inputContainer">
+            <form action="/predict" method="post">
+                <!-- <div class="mb-3">
+                <div class="mb-3"> -->
+                <!-- <div class="form-group"> -->
+                      <!-- ----------- -->
+                    <div class="row">
+                        <div class="col input-group-sm">
+                            <label for="high_bp">High Blood Pressure</label>
+                            <!-- <input type="number" id="disabledTextInput" class="form-control" name="high_bp" placeholder="0=low 1=high" required="required" /> -->
+                            <select class="form-select" name="high_bp" id="floatingSelect" aria-label="Floating label select example" placeholder="0=low 1=high">
+                                <option selected> </option>
+                                <option value="1">Yes</option>
+                                <option value="0" >No</option>
+                            </select>
+                        </div>
+                
+                        <div class="col input-group-sm">
+                            <label for="high_chol">High Cholesterol</label>
+                            <!-- <input type="number" id="disabledTextInput" class="form-control" name="high_chol" placeholder="0=low 1=high" required="required" /> -->
+                            <select class="form-select" name="high_chol" id="floatingSelect" aria-label="Floating label select example">
+                                <option selected> </option>
+                                <option value="1">Yes</option>
+                                <option value="0" >No</option>
+                            </select>
+                        </div>                        
+                    </div>    
+                    <!-- ------------------------ -->
+                    <div class="row">
+                        <div class="col-md-6 input-group-sm">
+                            <label for="chol_check">Cholesterol Check</label>
+                            <!-- <input type="number" id="disabledTextInput" class="form-control" name="chol_check" placeholder="0=No 1=Yes (in 5Y)" required="required" /> -->
+                            <select class="form-select" name="chol_check" id="floatingSelect" aria-label="Floating label select example">
+                                <option selected> </option>
+                                <option value="1">Yes</option>
+                                <option value="0" >No</option>
+                            </select>
+                        </div>
+                
+                        <div class="col-md-6 input-group-sm">
+                            <label for="bmi">BMI</label>
+                            <input type="number" id="disabledTextInput" class="form-control" name="bmi" placeholder="BMI(1-99)" required="required" />
+                        </div>
+                    </div>
+                    <!-- ------------------------ -->
+                    <div class="row">
+                        <div class="col-md-6 input-group-sm">
+                            <label for="smoker">Smoker</label>
+                            <!-- <input type="number" id="disabledTextInput" class="form-control" name="smoker" placeholder="100 cigarettes 0=no 1=yes" required="required" /> -->
+                            <select class="form-select" name="smoker" id="floatingSelect" aria-label="Floating label select example">
+                                <option selected> </option>
+                                <option value="1">Yes</option>
+                                <option value="0" >No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 input-group-sm">
+                            <label for="stroke">Stroke</label>
+                            <!-- <input type="number" id="disabledTextInput" class="form-control" name="stroke" placeholder="0=no 1=yes" required="required" /> -->
+                            <select class="form-select" name="stroke" id="floatingSelect" aria-label="Floating label select example">
+                                <option selected> </option>
+                                <option value="1">Yes</option>
+                                <option value="0" >No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- ------------------------ -->
+                    <div class="row">
+                        <div class="col-md-6 input-group-sm">
+                            <label for="heart_disease_or_attack">Heart Disease or Attack</label>
+                            <!-- <input type="number" id="disabledTextInput" class="form-control" name="heart_disease_or_attack" placeholder="0=no 1=yes" required="required" /> -->
+                            <select class="form-select" name="heart_disease_or_attack" id="floatingSelect" aria-label="Floating label select example">
+                                <option selected> </option>
+                                <option value="1">Yes</option>
+                                <option value="0" >No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 input-group-sm">
+                            <label for="phys_activity">Physical Activity</label>
+                            <!-- <input type="number" id="disabledTextInput" class="form-control" name="phys_activity" placeholder="0=no 1=yes(past 30 days)" required="required" /> -->
+                            <select class="form-select" name="phys_activity" id="floatingSelect" aria-label="Floating label select example">
+                                <option selected> </option>
+                                <option value="1">Yes</option>
+                                <option value="0" >No</option>
+                            </select>
+                        </div>
+                    </div>
+                        <!-- ------------------------ -->
+                    <div class="row">
+                        <div class="col-md-6 input-group-sm">
+                            <label for="fruits">Fruits</label>
+                            <!-- <input type="number" id="disabledTextInput" class="form-control" name="fruits" placeholder="0=no 1=yes(per day)" required="required" /> -->
+                            <select class="form-select" name="fruits" id="floatingSelect" aria-label="Floating label select example">
+                                <option selected> </option>
+                                <option value="1">Yes</option>
+                                <option value="0" >No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 input-group-sm">
+                            <label for="veggies">Veggies</label>
+                            <!-- <input type="number" id="disabledTextInput" class="form-control" name="veggies" placeholder="0-1" required="required" /> -->
+                            <select class="form-select" name="veggies" id="floatingSelect" aria-label="Floating label select example">
+                                <option selected> </option>
+                                <option value="1">Yes</option>
+                                <option value="0" >No</option>
+                            </select>
+                        </div>
+                    </div>
+                        <!-- ------------------------ -->
+                    <div class="row">
+                        <div class="col-md-6 input-group-sm">
+                            <label for="hvy_alcohol_consump">Heavy Alcohol Consump</label>
+                            <!-- <input type="number" id="disabledTextInput" class="form-control" name="hvy_alcohol_consump" placeholder="0-1" required="required" /> -->
+                            <select class="form-select" name="hvy_alcohol_consump" id="floatingSelect" aria-label="Floating label select example">
+                                <option selected> </option>
+                                <option value="1">Yes</option>
+                                <option value="0" >No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 input-group-sm">
+                            <label for="any_healthcare">Any Healthcare</label>
+                            <!-- <input type="number" id="disabledTextInput" class="form-control" name="any_healthcare" placeholder="1-0" required="required" /> -->
+                            <select class="form-select" name="any_healthcare" id="floatingSelect" aria-label="Floating label select example">
+                                <option selected> </option>
+                                <option value="1">Yes</option>
+                                <option value="0" >No</option>
+                            </select>
+                        </div>
+                    </div>
+                        <!-- ------------------------ -->
+                    <div class="row">
+                        <div class="col-md-6 input-group-sm">
+                            <label for="no_doc_bc_cost">No Doc BC Cost</label>
+                            <!-- <input type="number" id="disabledTextInput" class="form-control" name="no_doc_bc_cost" placeholder="0-1" required="required" /> -->
+                            <select class="form-select" name="no_doc_bc_cost" id="floatingSelect" aria-label="Floating label select example">
+                                <option selected> </option>
+                                <option value="1">Yes</option>
+                                <option value="0" >No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 input-group-sm">
+                            <label for="gen_hlth">General Health</label>
+                            <!-- <input type="number" id="disabledTextInput" class="form-control" name="gen_hlth" placeholder="1-5" required="required" /> -->
+                            <select class="form-select" name="gen_hlth" id="floatingSelect" aria-label="Floating label select example">
+                                <option selected> </option>
+                                <option value="1">1</option>
+                                <option value="2" >2</option>
+                                <option value="3" >3</option>
+                                <option value="4" >4</option>
+                                <option value="5" >5</option>
+                            </select>
+                        </div>
+                    </div>
+                        <!-- ------------------------ -->
+                    <div class="row">
+                        <div class="col-md-6 input-group-sm">
+                            <label for="ment_hlth">Mental Health</label>
+                            <input type="number" id="disabledTextInput" class="form-control" name="ment_hlth" placeholder="1-50" required="required" />
+                        </div>
+                        <div class="col-md-6 input-group-sm">
+                            <label for="phys_hlth">Physical Health</label>
+                            <input type="number" id="disabledTextInput" class="form-control" name="phys_hlth" placeholder="1-50" required="required" />
+                        </div>
+                    </div>
+                        <!-- ------------------------ -->
+                    <div class="row">
+                        <div class="col-md-6 input-group-sm">
+                            <label for="diff_walk">Difficulty in Walking</label>
+                            <!-- <input type="number" id="disabledTextInput" class="form-control" name="diff_walk" placeholder="0-1" required="required" /> -->
+                            <select class="form-select" name="diff_walk" id="floatingSelect" aria-label="Floating label select example">
+                                <option selected> </option>
+                                <option value="1">Yes</option>
+                                <option value="0" >No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 input-group-sm">
+                            <label for="sex">Sex</label>
+                            <!-- <input type="number" id="disabledTextInput" class="form-control" name="sex" placeholder="0-1" required="required" /> -->
+                            <select class="form-select" name="sex" id="floatingSelect" aria-label="Floating label select example">
+                                <option selected> </option>
+                                <option value="1">Yes</option>
+                                <option value="0" >No</option>
+                            </select>
+                        </div>
+                    </div>
+                        <!-- ------------------------ -->
+                    <div class="row">
+                        <div class="col-md-6 input-group-sm">
+                            <label for="age">Age</label>
+                            <input type="number" id="disabledTextInput" class="form-control" name="age" placeholder="0-100" required="required" />
+                        </div>
+                        <div class="col-md-6 input-group-sm">
+                            <label for="education">Education</label>
+                            <input type="number" id="disabledTextInput" class="form-control" name="education" placeholder="Education" required="required" />
+                        </div>
+                    </div>
+                        <!-- ------------------------ -->
+                    <!-- <div class="row">
+                        <div class="col-md-6">
+                            <label for="age">Age</label>
+                            <input type="number" id="disabledTextInput" class="form-control" name="age" placeholder="Age" required="required" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="education">Education</label>
+                            <input type="number" id="disabledTextInput" class="form-control" name="education" placeholder="Education" required="required" />
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-md-6 input-group-sm">
+                            <label for="income">Income</label>
+                            <input type="number" id="disabledTextInput" class="form-control" name="income" placeholder="Income" required="required" />
+                        </div>
+                        <div class="col-md-6 mt-4">
+                            <button type="submit" class="btn btn-primary col">Submit</button>
+                        </div>
+                    </div>
+                    
+                    <!-- </div>
+                    </div>
+                </div> -->
+                </form>
+            </div>
+        </div>
+</div>
+</body>
+</html>

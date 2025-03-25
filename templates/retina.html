@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/retina.css') }}"/>
+
+    <style>
+        body{
+            background: #FFF url("{{ url_for('static', filename='images/abstract-digital-grid-black-background.jpg') }}") no-repeat center top;
+            background-size: 1536px 864px; /* Set the width and height of the background image */
+        }
+    </style>
+    <title>Home</title>
+    
+</head>
+<body>
+    <!-- <div class="banner">
+        <a href="/retina_model">
+        <img class="head_img" src="{{ url_for('static', filename='images/eyeball.png') }}" alt="eyeball_img">
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
+            <li><a href="/retina_model" class="nav-link px-2 text-white">Retina Model</a></li>
+            <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+            <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+            <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+          </ul> -->
+
+        <!-- <h2 class="bannerheading">Diabetic Retina Diagnosis</h2> -->
+        <!-- <form class="form-inline my-2 my-lg-0 log_form">
+            <input class="form-control mr-sm-2 form-control-dark text-bg-dark search_box" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div> -->
+
+    <header class="p-2 header-bg">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/retina_model" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <img class="head_img" src="{{ url_for('static', filename='images/diabetes_icon.png')}}"></img>
+                <!-- <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg> -->
+            </a>
+    
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
+              <li><a href="/retina_model" class="nav-link px-2 text-white">Retina Model</a></li>
+              <li><a href="/chatbot" class="nav-link px-2 text-white">Chatbot</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+              <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+            </ul>
+    
+            <!-- <form class="form-inline my-2 my-lg-0 log_form">
+                <input class="form-control mr-sm-2 form-control-dark text-bg-dark search_box" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form> -->
+          </div>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="row info_row">
+            <div class="info1">
+                <h3 id="inputoutput1" style="margin-left: 20px;">Input Image</h3>
+            </div>
+            <div class="info2">
+                <h3 id="inputoutput2" style="margin-left: 20px;">Output</h3>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="subcontainer1">
+
+                <!-- <div class="image-section" style="display:none;"> -->
+                <!-- <div class="image-section" style="visibility : hidden;"> -->
+                <div class="image-section">
+                    <div class="img-preview" style="height: 300px; width: 500px;">
+                        {% if image_path %}
+                        <img id="imagePreview" src="data:image/{{ image_path.split('.')[-1] }};base64,{{ encoded_image }}" alt="Image Preview">
+                        {% else %}
+                            {% print(image_path)%}
+                            <img id="imagePreview" src="{{ url_for('static', filename='images/blank_image.png') }}" alt="Default Image">
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="loader" style="display:none;"></div>
+                <h3 id="result">
+                    <span> </span>
+                </h3>
+
+                <form id="upload-file" action="/predict_from_retina" method="post" enctype="multipart/form-data" style="height: 50px;">
+                    <label for="imageUpload" class="upload-label">
+                        Select Image
+                    </label>
+                    <input type="file" name="file" id="imageUpload" accept=".png, .jpg, .jpeg" onchange="previewImage()">
+                </form>
+            
+            </div>
+
+            <div class="subcontainer2">
+                <h3 id="prediction_result" style="font:white">Result : {{result}}</h3>
+            </div>
+        
+        <div class="predictbtndiv" style="height: 30px;">
+            <button type="button" class="btn btn-primary btn-lg" id="btn-predict" style="font-weight: 500;">Predict</button>
+        </div>
+    </div>
+    </div>
+
+
+    <script>
+    function previewImage() {
+        var preview = document.getElementById('imagePreview');
+        var fileInput = document.getElementById('imageUpload');
+        var file = fileInput.files[0];
+    
+        var reader = new FileReader();
+    
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+            document.querySelector('.image-section').style.visibility = 'visible';
+        };
+    
+        reader.readAsDataURL(file);
+    }
+
+    // Add event listener to predict button
+    document.getElementById('btn-predict').addEventListener('click', function() {
+        // Submit the form
+        document.getElementById('upload-file').submit();
+    });
+    
+    </script>
+    
+
+</body>
+</html>
